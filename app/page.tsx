@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { ToolCard } from "@/components/tool-card";
 import { tools, CATEGORIES } from "@/lib/tools";
@@ -56,9 +57,7 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        &copy; {new Date().getFullYear()} Michael Kenji Wilkins - Toolbox. All rights reserved.
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
