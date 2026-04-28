@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Wrench } from "lucide-react";
+import Link from 'next/link';
+import { Wrench } from 'lucide-react';
 
 export function SiteHeader() {
   return (
@@ -9,9 +9,7 @@ export function SiteHeader() {
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Wrench className="h-4 w-4" />
           </span>
-          <span className="font-semibold text-foreground tracking-tight">
-            Toolbox
-          </span>
+          <span className="font-semibold text-foreground tracking-tight">Toolbox</span>
         </Link>
         <nav className="flex items-center gap-6">
           <Link

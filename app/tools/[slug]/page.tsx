@@ -1,25 +1,19 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
-import { tools, getToolBySlug } from "@/lib/tools";
-import { Badge } from "@/components/ui/badge";
-import { StringComparison } from "@/components/tools/string-comparison";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { ChevronLeft } from 'lucide-react';
+import { tools, getToolBySlug } from '@/lib/tools';
+import { Badge } from '@/components/ui/badge';
+import { StringComparison } from '@/components/tools/string-comparison';
 
 // ── SSG ───────────────────────────────────────────────────────────────────────
 
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 
 export async function generateStaticParams() {
-  return tools
-    .filter((t) => t.available)
-    .map((t) => ({ slug: t.slug }));
+  return tools.filter((t) => t.available).map((t) => ({ slug: t.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
   if (!tool) return {};
@@ -33,7 +27,7 @@ export async function generateMetadata({
 
 function ToolRenderer({ slug }: { slug: string }) {
   switch (slug) {
-    case "string-comparison":
+    case 'string-comparison':
       return <StringComparison />;
     default:
       return (
@@ -46,11 +40,7 @@ function ToolRenderer({ slug }: { slug: string }) {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default async function ToolPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ToolPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const tool = getToolBySlug(slug);
 
@@ -60,10 +50,7 @@ export default async function ToolPage({
     <div className="flex flex-col gap-8">
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-        <Link
-          href="/"
-          className="flex items-center gap-1 hover:text-foreground transition-colors"
-        >
+        <Link href="/" className="flex items-center gap-1 hover:text-foreground transition-colors">
           <ChevronLeft className="h-4 w-4" />
           All tools
         </Link>
@@ -79,9 +66,7 @@ export default async function ToolPage({
           </h1>
           <Badge variant="secondary">{tool.category}</Badge>
         </div>
-        <p className="text-muted-foreground leading-relaxed max-w-2xl">
-          {tool.description}
-        </p>
+        <p className="text-muted-foreground leading-relaxed max-w-2xl">{tool.description}</p>
       </div>
 
       {/* Divider */}

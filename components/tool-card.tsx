@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 import {
   GitCompare,
   AlignLeft,
@@ -8,9 +8,9 @@ import {
   Braces,
   TerminalSquare,
   Binary,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import type { Tool } from "@/lib/tools";
+} from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import type { Tool } from '@/lib/tools';
 
 const iconMap: Record<string, React.ElementType> = {
   GitCompare,
@@ -34,8 +34,8 @@ export function ToolCard({ tool }: ToolCardProps) {
     <div
       className={`group relative flex flex-col gap-3 rounded-xl border border-border bg-card p-5 transition-all duration-200 ${
         tool.available
-          ? "hover:border-primary/40 hover:shadow-md cursor-pointer"
-          : "opacity-60 cursor-default"
+          ? 'hover:border-primary/40 hover:shadow-md cursor-pointer'
+          : 'opacity-60 cursor-default'
       }`}
     >
       <div className="flex items-start justify-between gap-3">
@@ -49,12 +49,8 @@ export function ToolCard({ tool }: ToolCardProps) {
         )}
       </div>
       <div className="flex flex-col gap-1">
-        <h3 className="font-semibold text-foreground leading-snug">
-          {tool.title}
-        </h3>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {tool.description}
-        </p>
+        <h3 className="font-semibold text-foreground leading-snug">{tool.title}</h3>
+        <p className="text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
       </div>
       <div className="mt-auto pt-1">
         <Badge variant="secondary" className="text-xs">

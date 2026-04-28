@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useState, useMemo } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
+import { useState, useMemo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { RotateCcw } from "lucide-react";
+} from '@/components/ui/select';
+import { RotateCcw } from 'lucide-react';
 
 // ── Algorithms ────────────────────────────────────────────────────────────────
 
@@ -53,12 +53,11 @@ function jaccardSimilarity(a: string, b: string): number {
 function lcsLength(a: string[], b: string[]): number {
   const m = a.length;
   const n = b.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, () =>
-    new Array(n + 1).fill(0)
-  );
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
-      dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+      dp[i][j] =
+        a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
     }
   }
   return dp[m][n];
@@ -74,7 +73,7 @@ function lcsSimilarity(a: string, b: string): number {
 
 // ── Diff ──────────────────────────────────────────────────────────────────────
 
-type DiffToken = { text: string; type: "equal" | "added" | "removed" };
+type DiffToken = { text: string; type: 'equal' | 'added' | 'removed' };
 
 function computeDiff(a: string, b: string): { left: DiffToken[]; right: DiffToken[] } {
   const wordsA = a.match(/(\S+|\s+)/g) ?? [];
@@ -82,9 +81,7 @@ function computeDiff(a: string, b: string): { left: DiffToken[]; right: DiffToke
 
   const m = wordsA.length;
   const n = wordsB.length;
-  const dp: number[][] = Array.from({ length: m + 1 }, () =>
-    new Array(n + 1).fill(0)
-  );
+  const dp: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
   for (let i = 1; i <= m; i++) {
     for (let j = 1; j <= n; j++) {
       dp[i][j] =
@@ -101,15 +98,15 @@ function computeDiff(a: string, b: string): { left: DiffToken[]; right: DiffToke
 
   while (i > 0 || j > 0) {
     if (i > 0 && j > 0 && wordsA[i - 1] === wordsB[j - 1]) {
-      left.unshift({ text: wordsA[i - 1], type: "equal" });
-      right.unshift({ text: wordsB[j - 1], type: "equal" });
+      left.unshift({ text: wordsA[i - 1], type: 'equal' });
+      right.unshift({ text: wordsB[j - 1], type: 'equal' });
       i--;
       j--;
     } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
-      right.unshift({ text: wordsB[j - 1], type: "added" });
+      right.unshift({ text: wordsB[j - 1], type: 'added' });
       j--;
     } else {
-      left.unshift({ text: wordsA[i - 1], type: "removed" });
+      left.unshift({ text: wordsA[i - 1], type: 'removed' });
       i--;
     }
   }
@@ -141,9 +138,8 @@ function DiffPanel({ tokens, label }: { tokens: DiffToken[]; label: string }) {
           <span className="text-muted-foreground italic">Empty</span>
         ) : (
           tokens.map((tok, idx) => {
-            if (tok.type === "equal")
-              return <span key={idx}>{tok.text}</span>;
-            if (tok.type === "removed")
+            if (tok.type === 'equal') return <span key={idx}>{tok.text}</span>;
+            if (tok.type === 'removed')
               return (
                 <mark
                   key={idx}
@@ -169,30 +165,30 @@ function DiffPanel({ tokens, label }: { tokens: DiffToken[]; label: string }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-type Algorithm = "levenshtein" | "jaccard" | "lcs";
+type Algorithm = 'levenshtein' | 'jaccard' | 'lcs';
 
 const ALGORITHMS: { value: Algorithm; label: string; description: string }[] = [
   {
-    value: "levenshtein",
-    label: "Levenshtein",
-    description: "Character-level edit distance",
+    value: 'levenshtein',
+    label: 'Levenshtein',
+    description: 'Character-level edit distance',
   },
   {
-    value: "jaccard",
-    label: "Jaccard",
-    description: "Word-level set similarity",
+    value: 'jaccard',
+    label: 'Jaccard',
+    description: 'Word-level set similarity',
   },
   {
-    value: "lcs",
-    label: "LCS",
-    description: "Longest common subsequence (word-level)",
+    value: 'lcs',
+    label: 'LCS',
+    description: 'Longest common subsequence (word-level)',
   },
 ];
 
 export function StringComparison() {
-  const [textA, setTextA] = useState("");
-  const [textB, setTextB] = useState("");
-  const [algorithm, setAlgorithm] = useState<Algorithm>("levenshtein");
+  const [textA, setTextA] = useState('');
+  const [textB, setTextB] = useState('');
+  const [algorithm, setAlgorithm] = useState<Algorithm>('levenshtein');
   const [caseSensitive, setCaseSensitive] = useState(true);
 
   const normalize = (s: string) => (caseSensitive ? s : s.toLowerCase());
@@ -202,11 +198,11 @@ export function StringComparison() {
     const b = normalize(textB);
     if (!a && !b) return null;
     switch (algorithm) {
-      case "levenshtein":
+      case 'levenshtein':
         return levenshteinSimilarity(a, b);
-      case "jaccard":
+      case 'jaccard':
         return jaccardSimilarity(a, b);
-      case "lcs":
+      case 'lcs':
         return lcsSimilarity(a, b);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -220,21 +216,20 @@ export function StringComparison() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textA, textB, caseSensitive]);
 
-  const pct =
-    similarity !== null ? `${(similarity * 100).toFixed(1)}%` : "—";
+  const pct = similarity !== null ? `${(similarity * 100).toFixed(1)}%` : '—';
 
   const similarityColor =
     similarity === null
-      ? "bg-muted text-muted-foreground"
+      ? 'bg-muted text-muted-foreground'
       : similarity >= 0.8
-      ? "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300"
-      : similarity >= 0.5
-      ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300"
-      : "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300";
+        ? 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300'
+        : similarity >= 0.5
+          ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300'
+          : 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300';
 
   const reset = () => {
-    setTextA("");
-    setTextB("");
+    setTextA('');
+    setTextB('');
   };
 
   return (
@@ -243,10 +238,7 @@ export function StringComparison() {
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex flex-col gap-1.5">
           <Label className="text-xs text-muted-foreground">Algorithm</Label>
-          <Select
-            value={algorithm}
-            onValueChange={(v) => setAlgorithm(v as Algorithm)}
-          >
+          <Select value={algorithm} onValueChange={(v) => setAlgorithm(v as Algorithm)}>
             <SelectTrigger className="w-44">
               <SelectValue />
             </SelectTrigger>
@@ -254,9 +246,7 @@ export function StringComparison() {
               {ALGORITHMS.map((a) => (
                 <SelectItem key={a.value} value={a.value}>
                   <span className="font-medium">{a.label}</span>
-                  <span className="ml-2 text-xs text-muted-foreground">
-                    {a.description}
-                  </span>
+                  <span className="ml-2 text-xs text-muted-foreground">{a.description}</span>
                 </SelectItem>
               ))}
             </SelectContent>
@@ -264,11 +254,7 @@ export function StringComparison() {
         </div>
 
         <div className="flex items-center gap-2 pt-5">
-          <Switch
-            id="case-sensitive"
-            checked={caseSensitive}
-            onCheckedChange={setCaseSensitive}
-          />
+          <Switch id="case-sensitive" checked={caseSensitive} onCheckedChange={setCaseSensitive} />
           <Label htmlFor="case-sensitive" className="text-sm cursor-pointer">
             Case sensitive
           </Label>
@@ -279,7 +265,7 @@ export function StringComparison() {
           size="sm"
           onClick={reset}
           className="gap-1.5 flex items-center"
-          style={{ paddingTop: undefined, marginTop: "auto" }}
+          style={{ paddingTop: undefined, marginTop: 'auto' }}
         >
           <RotateCcw className="h-3.5 w-3.5" />
           Reset
@@ -322,24 +308,18 @@ export function StringComparison() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <div className={`col-span-2 sm:col-span-1 flex flex-col gap-0.5 rounded-lg border px-4 py-3 ${similarityColor}`}>
+        <div
+          className={`col-span-2 sm:col-span-1 flex flex-col gap-0.5 rounded-lg border px-4 py-3 ${similarityColor}`}
+        >
           <span className="text-xs opacity-75">Similarity</span>
           <span className="text-2xl font-bold">{pct}</span>
         </div>
-        <StatCard
-          label="Chars A"
-          value={textA.length}
-        />
-        <StatCard
-          label="Chars B"
-          value={textB.length}
-        />
+        <StatCard label="Chars A" value={textA.length} />
+        <StatCard label="Chars B" value={textB.length} />
         <StatCard
           label="Char delta"
           value={
-            textA.length === 0 && textB.length === 0
-              ? "—"
-              : Math.abs(textA.length - textB.length)
+            textA.length === 0 && textB.length === 0 ? '—' : Math.abs(textA.length - textB.length)
           }
         />
       </div>

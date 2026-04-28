@@ -1,16 +1,14 @@
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { ToolCard } from "@/components/tool-card";
-import { tools, CATEGORIES } from "@/lib/tools";
-import Image from "next/image";
+import { SiteFooter } from '@/components/site-footer';
+import { SiteHeader } from '@/components/site-header';
+import { ToolCard } from '@/components/tool-card';
+import { tools, CATEGORIES } from '@/lib/tools';
+import Image from 'next/image';
 
 // Entire landing page is statically generated at build time
-export const dynamic = "force-static";
+export const dynamic = 'force-static';
 
 export default function Home() {
-  const categoriesWithTools = CATEGORIES.filter((cat) =>
-    tools.some((t) => t.category === cat)
-  );
+  const categoriesWithTools = CATEGORIES.filter((cat) => tools.some((t) => t.category === cat));
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
@@ -21,8 +19,8 @@ export default function Home() {
           A toolbox for everyday tasks
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground leading-relaxed text-pretty">
-          Fast, free, and runs entirely in your browser. No accounts, no ads,
-          no nonsense — just useful tools at your fingertips.
+          Fast, free, and runs entirely in your browser. No accounts, no ads, no nonsense — just
+          useful tools at your fingertips.
         </p>
         <div className="mt-8 flex items-center justify-center gap-3 text-sm text-muted-foreground">
           <span className="flex items-center gap-1.5">
